@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Libra — The Future, Secured</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Poppins', 'sans-serif'],
+                        body: ['Roboto', 'sans-serif'],
+                    },
+                    colors: {
+                        'brand-orange': '#FF6B35', // Vibrant professional orange
+                        'brand-orange-light': '#FF8A65', // Light orange accent
+                        'brand-orange-dark': '#E55100', // Dark orange for contrast
+                        'brand-cream': '#FFFEF7', // Pure cream white
+                        'brand-white': '#FFFFFF', // Pure white
+                        'brand-gray': '#2C3E50', // Professional dark blue-gray
+                        'brand-gray-light': '#34495E', // Lighter gray for variety
+                        'accent-blue': '#3498DB', // Professional blue accent
+                        'accent-green': '#27AE60', // Success green
+                    },
+                    backgroundImage: {
+                        'gradient-orange': 'linear-gradient(135deg, #FF6B35 0%, #FF8A65 100%)',
+                        'gradient-orange-dark': 'linear-gradient(135deg, #E55100 0%, #FF6B35 100%)',
+                        'gradient-subtle': 'linear-gradient(135deg, #FFFEF7 0%, #FFF8E1 100%)',
+                    },
+                    boxShadow: {
+                        'orange': '0 4px 14px 0 rgba(255, 107, 53, 0.25)',
+                        'orange-lg': '0 10px 25px 0 rgba(255, 107, 53, 0.3)',
+                        'professional': '0 4px 20px 0 rgba(44, 62, 80, 0.1)',
+                    },
+                },
+            },
+        }
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+        }
+
+        .fade-in.show {
+            opacity: 1;
+        }
+
+        .title-uppercase {
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #FF6B35, #FF8A65);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px 0 rgba(255, 107, 53, 0.3);
+        }
+
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .section-divider {
+            background: linear-gradient(90deg, transparent, #FF6B35, transparent);
+            height: 1px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-subtle text-brand-gray flex flex-col justify-between fade-in"
+      x-data="{ data: {}, mobileMenuOpen: false, loaded: false }"
+      x-init="fetch('data/text-content.json').then(response => response.json()).then(json => { data = json; loaded = true; $nextTick(() => $el.classList.add('show')); })"
+      x-cloak>
+    <!-- Navigation -->
+    <nav class="bg-white shadow-professional border-b-2 border-brand-orange">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <a href="#" class="text-2xl md:text-3xl font-bold tracking-wide font-display gradient-text" x-text="data.brand.name"></a>
+
+                <!-- Mobile menu button -->
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2 focus:outline-none text-brand-orange hover:bg-brand-orange hover:text-white rounded-lg transition-colors">
+                    <svg x-show="!mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                    <svg x-show="mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+
+                <!-- Desktop navigation -->
+                <div class="hidden md:flex items-center space-x-8 text-sm font-medium tracking-wide font-body">
+                    <template x-for="item in data.navigation" :key="item.label">
+                        <a :href="item.href" class="text-brand-gray hover:text-brand-orange transition-colors duration-200 px-3 py-2 rounded-md hover:bg-brand-orange hover:bg-opacity-10" x-text="item.label"></a>
+                    </template>
+                    <a href="faq.html" class="text-brand-gray hover:text-brand-orange transition-colors duration-200 px-3 py-2 rounded-md hover:bg-brand-orange hover:bg-opacity-10" x-text="data.buttons.faq"></a>
+                    <div class="flex space-x-4 items-center ml-4 pl-4 border-l border-brand-orange border-opacity-30">
+                        <template x-for="social in data.socialLinks" :key="social.name">
+                            <a :href="social.url" target="_blank" rel="noopener noreferrer" class="hover:opacity-70 transition-opacity p-2 rounded-full hover:bg-brand-orange hover:bg-opacity-10">
+                                <img :src="social.icon" :alt="social.name" class="w-5 h-5">
+                            </a>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile navigation menu -->
+            <div x-show="mobileMenuOpen" x-transition class="md:hidden mt-6 pb-4 bg-white rounded-lg shadow-orange mt-4">
+                <div class="flex flex-col space-y-2 p-4">
+                    <template x-for="item in data.navigation" :key="item.label">
+                        <a :href="item.href" class="text-brand-gray hover:text-brand-orange transition-colors font-medium py-3 px-4 rounded-md hover:bg-brand-orange hover:bg-opacity-10" x-text="item.label" @click="mobileMenuOpen = false"></a>
+                    </template>
+                    <a href="faq.html" class="text-brand-gray hover:text-brand-orange transition-colors font-medium py-3 px-4 rounded-md hover:bg-brand-orange hover:bg-opacity-10" @click="mobileMenuOpen = false" x-text="data.buttons.faq"></a>
+                    <div class="flex space-x-4 items-center pt-4 mt-4 border-t border-brand-orange border-opacity-20">
+                        <template x-for="social in data.socialLinks" :key="social.name">
+                            <a :href="social.url" target="_blank" rel="noopener noreferrer" class="hover:opacity-70 transition-opacity p-2 rounded-full hover:bg-brand-orange hover:bg-opacity-10">
+                                <img :src="social.icon" :alt="social.name" class="w-6 h-6">
+                            </a>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-orange text-white py-20 md:py-32 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-orange-dark opacity-10"></div>
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-6xl mx-auto text-center">
+                <h1 class="text-5xl md:text-8xl font-bold mb-8 tracking-wide leading-tight font-display drop-shadow-lg" x-text="data.hero.title"></h1>
+                <p class="uppercase text-xl md:text-2xl font-light opacity-95 max-w-4xl mx-auto tracking-normal leading-relaxed font-body mb-12 md:mb-16" x-text="data.hero.subtitle"></p>
+                <div class="flex flex-col gap-6 items-center md:flex-row md:justify-center">
+                    <a href="faq.html" class="inline-block px-10 md:px-12 py-4 bg-white text-brand-orange rounded-full text-lg md:text-xl font-semibold tracking-wide font-body hover:bg-brand-cream hover:shadow-orange-lg transition-all duration-300 hover-lift" x-text="data.buttons.faq"></a>
+                    <a href="#about" class="inline-block px-10 md:px-12 py-4 border-2 border-white text-white rounded-full text-lg md:text-xl font-semibold tracking-wide font-body hover:bg-white hover:text-brand-orange transition-all duration-300 hover-lift">Learn More</a>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 h-1 section-divider"></div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center">
+                    <div>
+                        <h2 class="text-4xl md:text-5xl font-bold mb-8 font-display title-uppercase gradient-text" x-text="data.about.title"></h2>
+                        <p class="text-lg md:text-xl font-light leading-relaxed font-body mb-8 text-brand-gray-light" x-text="data.about.description"></p>
+                        <p class="text-lg md:text-xl font-light leading-relaxed font-body text-brand-gray" x-text="data.about.mission"></p>
+                        <div class="mt-8">
+                            <a href="#inventions" class="inline-block px-8 py-3 bg-brand-orange text-white rounded-full font-semibold hover:bg-brand-orange-dark transition-colors duration-300 hover-lift">Explore Technology</a>
+                        </div>
+                    </div>
+                    <div class="space-y-6 md:space-y-8">
+                        <template x-for="highlight in data.aboutHighlights" :key="highlight.title">
+                            <div class="bg-gradient-subtle border-l-4 border-brand-orange rounded-lg p-6 md:p-8 shadow-professional hover-lift">
+                                <h3 class="text-xl md:text-2xl font-semibold font-display mb-4 text-brand-orange" x-text="highlight.title"></h3>
+                                <p class="font-body font-light text-base md:text-lg text-brand-gray-light" x-text="highlight.description"></p>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brand Pillars Section -->
+    <section class="py-16 md:py-24 bg-gradient-subtle relative">
+        <div class="absolute top-0 left-0 right-0 h-1 section-divider"></div>
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto text-center">
+                <h2 class="text-4xl md:text-5xl font-bold mb-12 md:mb-20 font-display title-uppercase gradient-text" x-text="data.foundation.title"></h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+                    <template x-for="pillar in data.foundation.pillars" :key="pillar.title">
+                        <div class="bg-white rounded-xl p-8 md:p-10 shadow-professional hover-lift border-t-4 border-brand-orange">
+                            <div class="w-16 h-16 bg-gradient-orange rounded-full flex items-center justify-center mx-auto mb-6">
+                                <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl md:text-2xl font-semibold font-display mb-6 text-brand-gray" x-text="pillar.title"></h3>
+                            <p class="font-body font-light leading-relaxed text-base md:text-lg text-brand-gray-light" x-text="pillar.description"></p>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Inventions Section -->
+    <section id="inventions" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12 md:mb-20">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-8 font-display title-uppercase gradient-text" x-text="data.inventions.title"></h2>
+                    <p class="text-xl md:text-2xl font-light max-w-4xl mx-auto font-body text-brand-gray-light" x-text="data.inventions.subtitle"></p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+                    <template x-for="item in data.inventions.items" :key="item.title">
+                        <div class="bg-gradient-subtle rounded-xl p-6 md:p-8 shadow-professional hover-lift border border-brand-orange border-opacity-20" :class="item.fullWidth ? 'md:col-span-2' : ''">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 bg-gradient-orange rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"></path>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="text-xl md:text-2xl font-semibold font-display mb-4 text-brand-gray" x-text="item.title"></h3>
+                                    <p class="font-body font-light text-base md:text-lg text-brand-gray-light" x-text="item.description"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Example Section - AI for Health Sciences Fund -->
+    <section id="example" class="py-16 md:py-24 bg-gradient-subtle relative">
+        <div class="absolute top-0 left-0 right-0 h-1 section-divider"></div>
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12 md:mb-20">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-8 font-display title-uppercase gradient-text" x-text="data.example.title"></h2>
+                    <p class="text-xl md:text-2xl font-light max-w-4xl mx-auto font-body text-brand-gray-light" x-text="data.example.description"></p>
+                </div>
+
+                <!-- Example Sections Grid -->
+                <div class="grid grid-cols-1 gap-8 md:gap-10 mb-12 md:mb-16">
+                    <template x-for="section in data.example.sections" :key="section.id">
+                        <div class="bg-white rounded-xl p-8 md:p-10 shadow-professional hover-lift border-l-4 border-brand-orange">
+                            <h3 class="text-2xl md:text-3xl font-semibold font-display mb-6 text-brand-orange" x-text="section.title"></h3>
+                            <p class="font-body font-light leading-relaxed text-lg md:text-xl text-brand-gray-light" x-text="section.body"></p>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Summary -->
+                <div class="text-center bg-gradient-orange text-white rounded-xl p-8 md:p-12 shadow-orange-lg">
+                    <p class="text-xl md:text-2xl font-light leading-relaxed font-body" x-text="data.example.summary"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Learn Section: Governance + Documentation (two columns) -->
+    <section id="learn" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16">
+                    <!-- Governance Column (anchored) -->
+                    <div id="governance" class="bg-gradient-subtle rounded-xl p-8 md:p-10 shadow-professional hover-lift border-t-4 border-brand-orange">
+                        <div class="w-16 h-16 bg-gradient-orange rounded-full flex items-center justify-center mb-6">
+                            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-3xl md:text-4xl font-bold font-display title-uppercase mb-6 text-brand-gray" x-text="data.governance.title"></h2>
+                        <p class="text-lg md:text-xl font-light font-body text-brand-gray-light" x-text="data.governance.description"></p>
+                    </div>
+
+                    <!-- Documentation Column (anchored) -->
+                    <div id="documentation" class="bg-gradient-subtle rounded-xl p-8 md:p-10 shadow-professional hover-lift border-t-4 border-brand-orange">
+                        <div class="w-16 h-16 bg-gradient-orange rounded-full flex items-center justify-center mb-6">
+                            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-3xl md:text-4xl font-bold font-display title-uppercase mb-6 text-brand-gray" x-text="data.documentation.title"></h2>
+                        <p class="text-lg md:text-xl font-light font-body text-brand-gray-light" x-text="data.documentation.description"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 md:py-24 bg-gradient-orange text-white relative">
+        <div class="absolute inset-0 bg-gradient-orange-dark opacity-10"></div>
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-4xl md:text-5xl font-bold mb-8 font-display title-uppercase" x-text="data.cta.title"></h2>
+                <p class="text-xl md:text-2xl font-light opacity-95 mb-12 md:mb-16 font-body" x-text="data.cta.description"></p>
+                <div class="flex flex-col gap-6 justify-center md:flex-row">
+                    <template x-for="button in data.cta.buttons" :key="button.label">
+                        <a :href="button.href" class="inline-block px-10 md:px-12 py-4 bg-white text-brand-orange rounded-full text-lg md:text-xl font-semibold tracking-wide font-body hover:bg-brand-cream hover:shadow-orange-lg transition-all duration-300 hover-lift" x-text="button.label"></a>
+                    </template>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 h-1 section-divider"></div>
+    </section>
+
+    <!-- Links Section (restored near footer) -->
+    <section id="links" class="bg-brand-gray py-16 md:py-24 text-white relative">
+        <div class="absolute top-0 left-0 right-0 h-1 section-divider"></div>
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12 md:mb-20">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-8 font-display title-uppercase text-white" x-text="data.links.title"></h2>
+                    <p class="text-xl md:text-2xl font-light opacity-90 max-w-4xl mx-auto font-body" x-text="data.links.description"></p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+                    <template x-for="category in data.links.categories" :key="category.title">
+                        <div class="space-y-6">
+                            <h3 class="text-2xl md:text-3xl font-semibold font-display mb-6 text-brand-orange" x-text="category.title"></h3>
+                            <div class="space-y-4">
+                                <template x-for="link in category.links" :key="link.label">
+                                    <div class="bg-brand-gray-light rounded-lg p-6 hover:bg-opacity-80 hover:shadow-orange transition-all duration-200 hover-lift border-l-4 border-brand-orange">
+                                        <a :href="link.href" class="block" target="_blank" rel="noopener noreferrer">
+                                            <h4 class="font-semibold font-display mb-2 text-brand-orange-light text-lg" x-text="link.label"></h4>
+                                            <p class="text-sm font-light opacity-80 font-body" x-text="link.description"></p>
+                                        </a>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Centered Logo at the Bottom -->
+    <footer class="bg-brand-gray-light py-12 md:py-16 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <a href="index.html" class="inline-block mb-8 hover-lift">
+                <div class="w-32 h-32 md:w-40 md:h-40 mx-auto bg-gradient-orange rounded-full flex items-center justify-center shadow-orange-lg">
+                    <img src="assets/logo.svg" :alt="data.brand.logoAlt" class="w-20 h-20 md:w-24 md:h-24">
+                </div>
+            </a>
+            <div class="flex justify-center space-x-8 mb-6">
+                <template x-for="social in data.socialLinks" :key="social.name">
+                    <a :href="social.url" target="_blank" rel="noopener noreferrer" class="hover:opacity-70 transition-opacity p-3 rounded-full hover:bg-brand-orange hover:bg-opacity-20">
+                        <img :src="social.icon" :alt="social.name" class="w-8 h-8">
+                    </a>
+                </template>
+            </div>
+            <div class="text-center text-sm opacity-70 font-body">
+                <p>&copy; 2025 Open Libra. Building the future of decentralized capital.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
